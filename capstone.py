@@ -1,10 +1,5 @@
 import sqlite3
 
-
-connection = sqlite3.connect('competency_database.db')
-
-cursor = connection.cursor()
-
 import uuid
 
 import csv
@@ -14,6 +9,9 @@ import datetime
 import bcrypt
 
 
+connection = sqlite3.connect('competency_database.db')
+
+cursor = connection.cursor()
 
 def initialize_database(connection):
     cursor = connection.cursor()
@@ -335,8 +333,6 @@ def update_competency_scale(competency_id, new_scale):
 
 
 
-
-import csv
 
 def export_users_to_csv(cursor):
     
@@ -718,38 +714,38 @@ def manager_menu(cursor, connection):
         choice = input("Enter choice: ")
 
         if choice == "1":
-            view_data(cursor, 'users')  # View all users
+            view_data(cursor, 'users')  
         elif choice == "2":
-            view_data(cursor, 'competencies')  # View all competencies
+            view_data(cursor, 'competencies')  
         elif choice == "3":
-            view_data(cursor, 'assessments')  # View all assessments
+            view_data(cursor, 'assessments')  
         elif choice == "4":
-            view_scores(cursor)  # View scores for competencies and assessments
+            view_scores(cursor)  
         elif choice == "5":
             user_id = input('Enter user ID: ').strip()
-            if user_id:  # Proceed only if user enters a valid ID
-                view_user_reports(cursor, int(user_id))  # View reports for a specific user
+            if user_id:  
+                view_user_reports(cursor, int(user_id))  
         elif choice == "6":
-            view_data(cursor, 'overall_reports')  # View overall report for all users
+            view_data(cursor, 'overall_reports')  
         elif choice == "7":
-            add_competency(cursor)  # Add a new competency
+            add_competency(cursor)  
         elif choice == "8":
-            remove_competency(cursor)  # Remove a competency
+            remove_competency(cursor) 
         elif choice == "9":
-            link_assessments_to_competency(cursor)  # Link assessments to a competency
+            link_assessments_to_competency(cursor)  
         elif choice == "10":
             user_id = input('Enter user ID: ').strip()
-            if user_id:  # Proceed only if user enters a valid ID
-                select_user_and_view_details(cursor, int(user_id))  # Select a user to view their details
+            if user_id:  
+                select_user_and_view_details(cursor, int(user_id)) 
         elif choice == "11":
-            add_user(cursor, connection)  # Add a new user
+            add_user(cursor, connection)  
         elif choice == "12":
             user_id = input('Enter user ID to delete (or press Enter to cancel): ').strip()
-            if user_id:  # Only proceed if user ID is entered
-                delete_user(cursor, connection, int(user_id))  # Delete a user by user ID
+            if user_id:  
+                delete_user(cursor, connection, int(user_id))  
         elif choice == "13":
             user_id = input('Enter user ID to edit (or press Enter to cancel): ').strip()
-            if user_id:  # Only proceed if user ID is entered
+            if user_id:  
                 new_values = { 
                     'first_name': input("Enter new first name: "), 
                     'last_name': input("Enter new last name: "), 
@@ -759,38 +755,38 @@ def manager_menu(cursor, connection):
                     'state': input("Enter new state: "), 
                     'occupation': input("Enter new occupation: ")
                 }
-                edit_data('user', int(user_id), new_values)  # Edit a user’s information
+                edit_data('user', int(user_id), new_values)  
         elif choice == "14":
             competency_id = input('Enter competency ID to edit (or press Enter to cancel): ').strip()
-            if competency_id:  # Only proceed if competency ID is entered
-                edit_competency(cursor, int(competency_id))  # Edit a competency
+            if competency_id: 
+                edit_competency(cursor, int(competency_id))  
         elif choice == "15":
             assessment_id = input('Enter assessment ID to edit (or press Enter to cancel): ').strip()
-            if assessment_id:  # Only proceed if assessment ID is entered
-                edit_assessment(cursor, int(assessment_id))  # Edit an assessment
+            if assessment_id:  
+                edit_assessment(cursor, int(assessment_id)) 
         elif choice == "16":
             assessment_result_id = input('Enter assessment result ID to edit (or press Enter to cancel): ').strip()
-            if assessment_result_id:  # Only proceed if assessment result ID is entered
-                edit_assessment_result(cursor, int(assessment_result_id))  # Edit an assessment result
+            if assessment_result_id:  
+                edit_assessment_result(cursor, int(assessment_result_id))  
         elif choice == "17":
             competency_id = input('Enter competency ID to edit scale (or press Enter to cancel): ').strip()
-            if competency_id:  # Only proceed if competency ID is entered
-                edit_competency_scale(cursor, int(competency_id))  # Edit competency scale
+            if competency_id:  
+                edit_competency_scale(cursor, int(competency_id))  
         elif choice == "18":
             assessment_result_id = input('Enter assessment result ID to delete (or press Enter to cancel): ').strip()
-            if assessment_result_id:  # Only proceed if assessment result ID is entered
-                delete_assessment_result(cursor, int(assessment_result_id))  # Delete an assessment result
+            if assessment_result_id: 
+                delete_assessment_result(cursor, int(assessment_result_id)) 
         elif choice == "19":
-            export_users_to_csv(cursor)  # Export users to CSV
+            export_users_to_csv(cursor)  
         elif choice == "20":
-            export_competencies_to_csv(cursor)  # Export competencies to CSV
+            export_competencies_to_csv(cursor)  
         elif choice == "21":
-            import_assessment_results_from_csv(cursor, connection)  # Import assessment results from CSV
+            import_assessment_results_from_csv(cursor, connection)  
         elif choice == "22":
-            print("Goodbye!")  # Exit the manager menu
+            print("Goodbye!")  
             break
         else:
-            print("Invalid choice. Please try again.")  # Invalid input
+            print("Invalid choice. Please try again.")  
 
 
 
@@ -867,15 +863,15 @@ def main_menu():
             user_type = authenticate_user(username, password, cursor) 
 
             if user_type == 'manager':
-                manager_menu(cursor, connection)  # This will now return to main menu when Enter is pressed
+                manager_menu(cursor, connection)  
             elif user_type == 'user':
-                user_menu(cursor, user_id)  # This will return to main menu when Enter is pressed
+                user_menu(cursor, user_id)  
             else:
                 print('Invalid username or password. Please try again.')
                 continue
 
         elif choice == "2":
-            register_user()  # Registration function if needed
+            register_user()  
         else:
             print('Invalid choice. Please try again.')
 
@@ -887,16 +883,16 @@ def login_screen():
     while True:
         print("\nWelcome! Please choose an option:")
         
-        # Ask if the user is logging in for the first time
+        
         choice = input("Is this your first time logging in? (y/n): ").lower()
         
         if choice == 'y':
-            # First-time login, take the user to the registration screen
+            
             print("It seems like this is your first time logging in. Let's register you.")
             register_user()
         
         elif choice == 'n':
-            # Existing user, proceed with login
+            
             print("\nPlease choose an option:")
             print("1. Log in")
             print("2. Exit")
