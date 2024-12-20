@@ -1,0 +1,92 @@
+User Manual for Competency and Assessment Management System
+Introduction
+Welcome to the Competency and Assessment Management System! This simple, text-based system helps you manage competencies, assessments, and results for employees within your organization. The system allows managers to handle users, competencies, and assessment results, while employees (users) can have their competencies assessed and tracked.
+System Setup
+1. Database Initialization: The program automatically sets up an SQLite database when run for the first time. It creates necessary tables:
+o Users: Stores user data (e.g., managers and employees).
+o Competencies: Lists competencies with associated proficiency scales.
+o Assessments: Details of the assessments linked to competencies.
+o Assessment Results: Records the results of assessments for each user.
+2. Database File: A file named dp_customers.db is created in the program directory. Ensure the file is accessible and has appropriate permissions.
+Main Features
+1. Register a New User (Manager Menu Option 11)
+* User Types: Manager or User.
+* Details to Provide:
+o Username, Password, First Name, Last Name, City, State, Email, Occupation.
+o For Managers: Manager Title.
+* The system will store the details in the database.
+2. View Users (Manager Menu Option 1)
+* Action: Lists all users in the system.
+3. View Competencies (Manager Menu Option 2)
+* Action: Lists all competencies in the system.
+4. View Assessments (Manager Menu Option 3)
+* Action: Lists all assessments in the system.
+5. View Scores (Manager Menu Option 4)
+* Action: Displays scores for competencies and assessments.
+6. View User Reports (Manager Menu Option 5)
+* Action: Lists competencies and assessments linked to a specific user.
+* Input: User ID required.
+7. View Overall Reports (Manager Menu Option 6)
+* Action: Displays overall competency and assessment reports for all users.
+8. Add a Competency (Manager Menu Option 7)
+* Action: Adds a new competency.
+* Input: Name of the competency and proficiency scale (0-4).
+o 0: No competency
+o 1: Basic competency
+o 2: Intermediate competency
+o 3: Advanced competency
+o 4: Expert competency
+9. Remove a Competency (Manager Menu Option 8)
+* Action: Deletes a competency.
+* Input: Competency ID required.
+10. Link Assessments to Competency (Manager Menu Option 9)
+* Action: Links assessments to a specific competency.
+11. Select a User to View Details (Manager Menu Option 10)
+* Action: Displays detailed information for a selected user.
+* Input: User ID required.
+12. Delete a User (Manager Menu Option 12)
+* Action: Removes a user from the system.
+* Input: User ID required.
+13. Edit User Information (Manager Menu Option 13)
+* Action: Updates user information.
+* Input: User ID required, new values.
+14. Edit Competency (Manager Menu Option 14)
+* Action: Updates competency information.
+* Input: Competency ID required, new values.
+15. Edit Assessment (Manager Menu Option 15)
+* Action: Updates assessment information.
+* Input: Assessment ID required, new values.
+16. Edit Assessment Result (Manager Menu Option 16)
+* Action: Updates assessment result information.
+* Input: Assessment result ID required, new values.
+17. Edit Competency Scale (Manager Menu Option 17)
+* Action: Modifies the scale of a competency.
+* Input: Competency ID required, new scale.
+18. Delete an Assessment Result (Manager Menu Option 18)
+* Action: Removes an assessment result.
+* Input: Assessment result ID required.
+19. Export Users to CSV (Manager Menu Option 19)
+* Action: Exports user data to a CSV file.
+20. Export Competencies to CSV (Manager Menu Option 20)
+* Action: Exports competency data to a CSV file.
+21. Import Assessment Results from CSV (Manager Menu Option 21)
+* Action: Imports assessment results from a CSV file.
+* Input: CSV file with user ID, assessment ID, score, and date.
+22. Exit (Manager Menu Option 22)
+* Action: Closes the program.
+Troubleshooting
+* Database Issues: Ensure that the file dp_customers.db has appropriate permissions. If necessary, reinitialize the database.
+* Errors Adding User/Competency: Double-check that all required fields are filled out correctly, and ensure usernames and email addresses are unique. The competency scale must be between 0 and 4.
+* Assessment Result Deletion Issues: Ensure the Assessment ID exists in the system before attempting deletion.
+Appendix: Database Schema
+1. Users Table:
+o Fields: user_id, username, password, user_type, first_name, last_name, city, state, email, occupation, manager_title, date_created
+2. Competencies Table:
+o Fields: competency_id, name, scale, description, date_created
+3. Assessments Table:
+o Fields: assessment_id, name, description, competency_id
+4. AssessmentResults Table:
+o Fields: result_id, user_id, assessment_id, score, comments, assessment_date
+Conclusion
+This system is designed to make it easy for you to manage users, competencies, assessments, and results. The interface is simple and intuitive, and with this manual, you should be able to quickly get up and running. If you have any further questions or need help, please contact the system administrator.
+
