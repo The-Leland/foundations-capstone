@@ -130,7 +130,9 @@ def authenticate_user(username, password, cursor):
 
 
 
-def register_user(): 
+import bcrypt
+
+def register_user(cursor, connection): 
     while True: 
         user_type = input("Enter user type (manager/user): ").lower() 
         if user_type not in ['manager', 'user']: 
@@ -152,7 +154,6 @@ def register_user():
             manager_title = input("Enter manager title: ") 
             cursor.execute("INSERT INTO Users (username, password, user_type, first_name, last_name, city, state, email, occupation, manager_title) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
                            (username, hashed_password, user_type, first_name, last_name, city, state, email, occupation, manager_title)) 
-            
         else: 
             cursor.execute("INSERT INTO Users (username, password, user_type, first_name, last_name, city, state, email, occupation) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", 
                            (username, hashed_password, user_type, first_name, last_name, city, state, email, occupation)) 
@@ -683,6 +684,100 @@ def view_your_assessment_results(cursor, user_id):
         print("No assessment results found.")
 
 
+def view_scores(cursor):
+    # Example query to fetch scores
+    query = "SELECT * FROM Scores"
+    cursor.execute(query)
+    results = cursor.fetchall()
+    for row in results:
+        print(row)
+
+
+def view_user_reports(cursor, user_id):
+    # Example query to fetch user reports
+    query = "SELECT * FROM Reports WHERE user_id = ?"
+    cursor.execute(query, (user_id,))
+    results = cursor.fetchall()
+    for row in results:
+        print(row)
+
+
+def link_assessments_to_competency(cursor):
+    competency_id = input("Enter competency ID: ")
+    assessment_id = input("Enter assessment ID: ")
+    # Example logic to link assessment to competency
+    query = "UPDATE Assessments SET competency_id = ? WHERE assessment_id = ?"
+    cursor.execute(query, (competency_id, assessment_id))
+    print(f"Assessment {assessment_id} linked to competency {competency_id}")
+
+
+def select_user_and_view_details(cursor, user_id):
+    query = "SELECT * FROM Users WHERE user_id = ?"
+    cursor.execute(query, (user_id,))
+    result = cursor.fetchone()
+    if result:
+        print(result)
+    else:
+        print("User not found")
+
+
+def delete_user(cursor, connection, user_id):
+    query = "DELETE FROM Users WHERE user_id = ?"
+    cursor.execute(query, (user_id,))
+    connection.commit()
+    print(f"User {user_id} deleted")
+
+
+def edit_competency(cursor, competency_id):
+    name = input("Enter new name: ")
+    description = input("Enter new description: ")
+    query = "UPDATE Competencies SET name = ?, description = ? WHERE competency_id = ?"
+    cursor.execute(query, (name, description, competency_id))
+    print(f"Competency {competency_id} updated")
+
+
+def edit_assessment(cursor, assessment_id):
+    name = input("Enter new name: ")
+    description = input("Enter new description: ")
+    query = "UPDATE Assessments SET name = ?, description = ? WHERE assessment_id = ?"
+    cursor.execute(query, (name, description, assessment_id))
+    print(f"Assessment {assessment_id} updated")
+
+
+def edit_assessment_result(cursor, assessment_result_id):
+    score = input("Enter new score: ")
+    comments = input("Enter new comments: ")
+    query = "UPDATE AssessmentResults SET score = ?, comments = ? WHERE result_id = ?"
+    cursor.execute(query, (score, comments, assessment_result_id))
+    print(f"Assessment result {assessment_result_id} updated")
+
+
+def edit_competency_scale(cursor, competency_id):
+    scale = input("Enter new scale: ")
+    query = "UPDATE Competencies SET scale = ? WHERE competency_id = ?"
+    cursor.execute(query, (scale, competency_id))
+    print(f"Competency {competency_id} scale updated")
+
+
+def authenticate_user(username, password, cursor):
+    # Example logic for authenticating user
+    query = "SELECT user_type, user_id FROM Users WHERE username = ? AND password = ?"
+    cursor.execute(query, (username, password))
+    result = cursor.fetchone()
+    if result:
+        user_type, user_id = result
+        return user_type, user_id
+    return None, None
+
+
+def register_user(cursor, connection):
+    username = input("Enter username: ")
+    password = input("Enter password: ")
+    user_type = input("Enter user type (manager/user): ")
+    query = "INSERT INTO Users (username, password, user_type) VALUES (?, ?, ?)"
+    cursor.execute(query, (username, password, user_type))
+    connection.commit()
+    print("User registered successfully")
 
 
 def manager_menu(cursor, connection):
@@ -860,7 +955,7 @@ def main_menu():
         if choice == "1": 
             username = input("Enter your username: ") 
             password = input("Enter your password: ") 
-            user_type = authenticate_user(username, password, cursor) 
+            user_type, user_id = authenticate_user(username, password, cursor) 
 
             if user_type == 'manager':
                 manager_menu(cursor, connection)  
